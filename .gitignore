@@ -1,0 +1,24 @@
+# Environment variables
+.env
+
+# Python virtual environment
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
