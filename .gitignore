@@ -5,6 +5,8 @@
 backend/venv/
 backend/__pycache__/
 backend/*.pyc
+backend/photos/
+backend/reduced_photos/
 
 # IDE files
 .vscode/
