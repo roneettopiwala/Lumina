@@ -70,7 +70,7 @@ if allImages:
     print(f"✓ Stored successfully!")
 
 # === STEP 2: Test search ===
-queryText =  input("what are you looking for?")
+queryText =  ""
 
 
 while queryText != "exit":
@@ -83,7 +83,7 @@ while queryText != "exit":
 
     if total_vectors > 0:
         queryEmbedding = embedder.embedText(queryText)
-        results = storage.semanticSearch(queryEmbedding, namespace="images", top_k=5)
+        results = storage.semanticSearch(queryEmbedding, namespace="images", top_k=20)
 
     print(f"\n✓ Found {len(results)} results:\n")
 

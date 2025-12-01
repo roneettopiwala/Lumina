@@ -91,7 +91,7 @@ class VectorStore:
 
 
     
-    def semanticSearch(self, queryEmbedding, namespace, filterDict=None, top_k=5):
+    def semanticSearch(self, queryEmbedding, namespace, filterDict=None, top_k=20):
 
         results = self.idx.query(
             vector=queryEmbedding,
@@ -112,10 +112,28 @@ class VectorStore:
         print(f"Total vectors: {stats.total_vector_count}")
         print(f"Namespaces: {stats.namespaces}")
         
+        # Convert namespaces to JSON-serializable dict
+        namespaces_dict = {}
+        if stats.namespaces:
+            # NamespaceSummary object needs to be converted to dict
+            try:
+                # Try to convert directly if it's dict-like
+                if hasattr(stats.namespaces, 'items'):
+                    namespaces_dict = {str(k): int(v) if isinstance(v, (int, float)) else str(v) 
+                                     for k, v in stats.namespaces.items()}
+                elif hasattr(stats.namespaces, '__dict__'):
+                    namespaces_dict = {str(k): int(v) if isinstance(v, (int, float)) else str(v) 
+                                     for k, v in stats.namespaces.__dict__.items()}
+                else:
+                    # Convert to string as last resort
+                    namespaces_dict = {"raw": str(stats.namespaces)}
+            except Exception as e:
+                namespaces_dict = {"error": f"Could not convert namespaces: {str(e)}"}
+        
         return {
             "total_vectors": stats.total_vector_count,
             "dimension": stats.dimension,
-            "namespaces": stats.namespaces
+            "namespaces": namespaces_dict
         }
 
     def deleteId (self, ids, namespace):
